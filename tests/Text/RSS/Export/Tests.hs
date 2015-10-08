@@ -13,7 +13,8 @@ import Text.RSS.Equals ()
 rssExportTests :: Test
 rssExportTests = testGroup "Text.RSS.Export"
     [ mutuallyExclusive $ testGroup "RSS export"
-        [ testCreateXMLCloud
+        [ testCreateXMLImage
+        , testCreateXMLCloud
         , testCreateXMLTextInput
         , testCreateEmptyXMLSkipHours
         , testCreateXMLSkipHours
@@ -25,6 +26,80 @@ rssExportTests = testGroup "Text.RSS.Export"
     ]
 
 type String = [Char]
+
+testCreateXMLImage :: Test
+testCreateXMLImage = testCase "should create image as xml" testImage
+  where
+    testImage :: Assertion
+    testImage = do
+        let other = XML.Element {
+            elName = createQName "other"
+            , elAttribs = [] :: [ Attr ]
+            , elContent = [ createContent "image other" ] :: [ Content ]
+            , elLine = Nothing
+        }
+
+        let image = RSSImage {
+            rssImageURL = "image url"
+            , rssImageTitle = "image title"
+            , rssImageLink = "image link"
+            , rssImageWidth = Just 100
+            , rssImageHeight = Just 200
+            , rssImageDesc = Just "image desc"
+            , rssImageOther = [ other ]
+        }
+
+        let expected = XML.Element {
+            elName = createQName "image"
+            , elAttribs = [] :: [ Attr ]
+            , elContent = [
+                  Elem(XML.Element {
+                    elName = createQName "url"
+                    , elAttribs = [] :: [ Attr ]
+                    , elContent = [ createContent "image url" ] :: [ Content ]
+                    , elLine = Nothing
+                  })
+                  , Elem(XML.Element {
+                    elName = createQName "title"
+                    , elAttribs = [] :: [ Attr ]
+                    , elContent = [ createContent "image title" ] :: [ Content ]
+                    , elLine = Nothing
+                  })
+                  , Elem(XML.Element {
+                    elName = createQName "link"
+                    , elAttribs = [] :: [ Attr ]
+                    , elContent = [ createContent "image link" ] :: [ Content ]
+                    , elLine = Nothing
+                  })
+                  , Elem(XML.Element {
+                    elName = createQName "width"
+                    , elAttribs = [] :: [ Attr ]
+                    , elContent = [ createContent "100" ] :: [ Content ]
+                    , elLine = Nothing
+                  })
+                  , Elem(XML.Element {
+                    elName = createQName "height"
+                    , elAttribs = [] :: [ Attr ]
+                    , elContent = [ createContent "200" ] :: [ Content ]
+                    , elLine = Nothing
+                  })
+                  , Elem(XML.Element {
+                    elName = createQName "description"
+                    , elAttribs = [] :: [ Attr ]
+                    , elContent = [ createContent "image desc" ] :: [ Content ]
+                    , elLine = Nothing
+                  })
+                  , Elem(XML.Element {
+                    elName = createQName "other"
+                    , elAttribs = [] :: [ Attr ]
+                    , elContent = [ createContent "image other" ] :: [ Content ]
+                    , elLine = Nothing
+                  })
+             ] :: [ Content ]
+            , elLine = Nothing
+        }
+
+        assertEqual "image" expected (xmlImage image)
 
 testCreateXMLCloud :: Test
 testCreateXMLCloud = testCase "should create cloud as xml" testCloud
