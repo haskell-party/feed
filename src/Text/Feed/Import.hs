@@ -15,12 +15,13 @@
 
 module Text.Feed.Import
         ( parseFeedFromFile -- :: FilePath -> IO Feed
-        , parseFeedString   -- :: String -> IO Feed
+        , parseFeedString   -- :: String -> Maybe Feed
+        , parseFeedSource   -- :: XmlSource s => s -> Maybe Feed
 
           -- if you know your format, use these directly:
-	, readRSS2          -- :: XML.Element -> Maybe Feed
-	, readRSS1          -- :: XML.Element -> Maybe Feed
-	, readAtom          -- :: XML.Element -> Maybe Feed
+        , readRSS2          -- :: XML.Element -> Maybe Feed
+        , readRSS1          -- :: XML.Element -> Maybe Feed
+        , readAtom          -- :: XML.Element -> Maybe Feed
         ) where
 
 import Text.Atom.Feed.Import as Atom
@@ -69,13 +70,15 @@ parseFeedWithParser parser str =
       readRSS1 e `mplus`
       Just (XMLFeed e)
 
-
--- | 'parseFeedString str' tries to parse the string @str@ as
--- one of the feed formats. First as Atom, then RSS2 before
--- giving RSS1 a try. @Nothing@ is, rather unhelpfully, returned
--- as an indication of error.
 parseFeedString :: String -> Maybe Feed
-parseFeedString = parseFeedWithParser parseXMLDoc
+parseFeedString = parseFeedSource
+
+-- | 'parseFeedSource s' tries to parse the source @s@ as
+-- one of the feed formats. First as Atom, then RSS2 before giving
+-- RSS1 a try. @Nothing@ is, rather unhelpfully, returned as an
+-- indication of error.
+parseFeedSource :: XmlSource s => s -> Maybe Feed
+parseFeedSource = parseFeedWithParser parseXMLDoc
 
 -- | 'readRSS2 elt' tries to derive an RSS2.x, RSS-0.9x feed document
 -- from the XML element @e@.
@@ -91,4 +94,3 @@ readRSS1 e = fmap RSS1Feed $ RSS1.elementToFeed e
 -- from the XML element @e@.
 readAtom :: XML.Element -> Maybe Feed
 readAtom e = fmap AtomFeed $ Atom.elementFeed e
-

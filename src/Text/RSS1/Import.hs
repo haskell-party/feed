@@ -126,7 +126,7 @@ elementToChannel e = do
   let is =
        case fmap seqLeaves $ pNode "items" e of
          Nothing -> []
-	 Just ss -> ss
+         Just ss -> ss
   let tinp     = pLeaf "textinput" e
   let dcs      = mapMaybe elementToDC es
   let tos = fromMaybe [] (fmap bagLeaves $ pQNode (qualName (taxNS,taxPrefix) "topics") e)
@@ -135,7 +135,7 @@ elementToChannel e = do
   let as_other = removeKnownAttrs e
   let def_chan =
         Channel
-	  { channelURI          = uri
+          { channelURI          = uri
           , channelTitle        = ti
           , channelLink         = li
           , channelDesc         = de
@@ -146,7 +146,7 @@ elementToChannel e = do
           , channelUpdatePeriod = Nothing
           , channelUpdateFreq   = Nothing
           , channelUpdateBase   = Nothing
-	  , channelContent      = cs
+          , channelContent      = cs
           , channelTopics       = tos
           , channelOther        = es_other
           , channelAttrs        = as_other

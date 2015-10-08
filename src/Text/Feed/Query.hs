@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 --------------------------------------------------------------------
 -- |
 -- Module    : Text.Feed.Query
@@ -62,9 +63,9 @@ import Data.List
 import Data.Maybe
 
 -- for getItemPublishDate rfc822 date parsing.
-import System.Locale ( rfc822DateFormat, iso8601DateFormat )
-import Data.Time.Locale.Compat ( defaultTimeLocale )
-import Data.Time.Format ( ParseTime, parseTime )
+import Data.Time.Locale.Compat ( defaultTimeLocale, rfc822DateFormat, iso8601DateFormat )
+import Data.Time.Format ( ParseTime )
+import qualified Data.Time.Format as F
 
 feedItems :: Feed.Feed -> [Feed.Item]
 feedItems fe =
@@ -129,7 +130,9 @@ getFeedHTML ft =
         Just e1 -> fmap XML.strContent $ findElement (unqual "link") e1
         Nothing -> Nothing
  where
-  isSelf lr = toStr (Atom.linkRel lr) == "alternate" && isHTMLType (linkType lr)
+  isSelf lr =
+    let rel = Atom.linkRel lr
+    in  (isNothing rel || toStr rel == "alternate") && isHTMLType (linkType lr)
 
   isHTMLType (Just str) = "lmth" `isPrefixOf` (reverse str)
   isHTMLType _ = True -- if none given, assume html.
@@ -243,13 +246,16 @@ getItemTitle it =
 getItemLink :: ItemGetter String
 getItemLink it =
   case it of
-       -- look up the 'alternate' HTML link relation on the entry:
+       -- look up the 'alternate' HTML link relation on the entry, or one
+       -- without link relation since that is equivalent to 'alternate':
     Feed.AtomItem i -> fmap Atom.linkHref $ listToMaybe $ filter isSelf $ Atom.entryLinks i
     Feed.RSSItem i  -> RSS.rssItemLink i
     Feed.RSS1Item i -> Just (RSS1.itemLink i)
     Feed.XMLItem i  -> fmap (\ ei -> XML.strContent ei) $ findElement (unqual "link") i
  where
-  isSelf lr = toStr (Atom.linkRel lr) == "alternate" && isHTMLType (linkType lr)
+  isSelf lr =
+    let rel = Atom.linkRel lr
+    in  (isNothing rel || toStr rel == "alternate") && isHTMLType (linkType lr)
 
   isHTMLType (Just str) = "lmth" `isPrefixOf` (reverse str)
   isHTMLType _ = True -- if none given, assume html.
@@ -275,6 +281,12 @@ getItemPublishDate it = do
 
      date = foldl1 mplus (map (\ fmt -> parseTime defaultTimeLocale fmt ds) formats)
    return date
+   where
+#if MIN_VERSION_time(1,5,0)
+     parseTime = F.parseTimeM True
+#else
+     parseTime = F.parseTime
+#endif
 
 getItemPublishDateString :: ItemGetter DateString
 getItemPublishDateString it =
@@ -320,7 +332,7 @@ getItemEnclosure it =
        case filter isEnc $ Atom.entryLinks e of
          (l:_) -> Just (Atom.linkHref l,
                         Atom.linkType l,
-			readLength (Atom.linkLength l))
+                        readLength (Atom.linkLength l))
          _ -> Nothing
     Feed.RSSItem i  ->
        fmap (\ e -> (RSS.rssEnclosureURL e, Just (RSS.rssEnclosureType e), RSS.rssEnclosureLength e))

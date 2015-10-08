@@ -66,10 +66,10 @@ checkEntryAuthor e =
     [] -> -- required
       case pNode "summary" (elChildren e) of
         Nothing -> demand "Required 'author' element missing (no 'summary' either)"
-	Just e1 ->
-	  case pNode "author" (elChildren e1) of
-	    Just a -> checkAuthor a
-	    _ -> demand "Required 'author' element missing"
+        Just e1 ->
+          case pNode "author" (elChildren e1) of
+            Just a -> checkAuthor a
+            _ -> demand "Required 'author' element missing"
     xs -> mkTree [] $ map checkAuthor xs
 
 
@@ -95,10 +95,10 @@ checkContentLink e =
     [] ->
       case pNodes "link" (elChildren e) of
         [] -> demand ("An 'entry' element with no 'content' element must have at least one 'link-rel' element")
-	xs ->
-	  case filter (=="alternate") $ mapMaybe (pAttr "rel") xs of
-	    [] -> demand ("An 'entry' element with no 'content' element must have at least one 'link-rel' element")
-	    _  -> valid
+        xs ->
+          case filter (=="alternate") $ mapMaybe (pAttr "rel") xs of
+            [] -> demand ("An 'entry' element with no 'content' element must have at least one 'link-rel' element")
+            _  -> valid
     _ -> valid
 
 checkLinks :: Element -> ValidatorResult
@@ -109,14 +109,14 @@ checkLinks e =
             mapMaybe (\ ex -> fmap (\x -> (ex,x)) $ pAttr "rel" ex) xs of
        xs1 ->
          let
-	  jmb (Just x) (Just y) = Just (x,y)
-	  jmb _ _ = Nothing
-	 in
+          jmb (Just x) (Just y) = Just (x,y)
+          jmb _ _ = Nothing
+         in
          case mapMaybe (\ ex -> pAttr "type" ex `jmb` pAttr "hreflang" ex) xs1 of
-	   xs2 ->
-	     case any (\ x -> length x > 1) (group xs2) of
-	       True -> demand ("An 'entry' element cannot have duplicate 'link-rel-alternate-type-hreflang' elements")
-	       _ -> valid
+           xs2 ->
+             case any (\ x -> length x > 1) (group xs2) of
+               True -> demand ("An 'entry' element cannot have duplicate 'link-rel-alternate-type-hreflang' elements")
+               _ -> valid
 
 checkId :: Element -> ValidatorResult
 checkId e =
@@ -179,14 +179,14 @@ checkCat e = mkTree []
       [] -> valid
       (_:xs)
         | null xs   -> valid
-	| otherwise -> demand ("Expected at most one 'scheme' attribute, found: " ++ show (1+length xs))
+        | otherwise -> demand ("Expected at most one 'scheme' attribute, found: " ++ show (1+length xs))
 
   checkLabel e' =
     case pAttrs "label" e' of
       [] -> valid
       (_:xs)
         | null xs   -> valid
-	| otherwise -> demand ("Expected at most one 'label' attribute, found: " ++ show (1+length xs))
+        | otherwise -> demand ("Expected at most one 'label' attribute, found: " ++ show (1+length xs))
 
 checkContent :: Element -> ValidatorResult
 checkContent e = mkTree (flattenT (mkTree [] [type_valid, src_valid]))
@@ -194,27 +194,27 @@ checkContent e = mkTree (flattenT (mkTree [] [type_valid, src_valid]))
     "text" ->
       case onlyElems (elContent e) of
         [] -> valid
-	_  -> demand ("content with type 'text' cannot have child elements, text only.")
+        _  -> demand ("content with type 'text' cannot have child elements, text only.")
     "html" ->
       case onlyElems (elContent e) of
         [] -> valid
-	_  -> demand ("content with type 'html' cannot have child elements, text only.")
+        _  -> demand ("content with type 'html' cannot have child elements, text only.")
 
     "xhtml" ->
       case onlyElems (elContent e) of
         []  -> valid
-	[_] -> valid -- ToDo: check that it is a 'div'.
-	_ds -> demand ("content with type 'xhtml' should only contain one 'div' child.")
+        [_] -> valid -- ToDo: check that it is a 'div'.
+        _ds -> demand ("content with type 'xhtml' should only contain one 'div' child.")
     _ -> valid]
 {-
       case parseMIMEType ty of
         Nothing -> valid
-	Just mt
-	  | isXmlType mt -> valid
+        Just mt
+          | isXmlType mt -> valid
           | otherwise ->
             case onlyElems (elContent e) of
               [] -> valid -- check
-	      _  -> demand ("content with MIME type '" ++ ty ++ "' must only contain base64 data")]
+              _  -> demand ("content with MIME type '" ++ ty ++ "' must only contain base64 data")]
 -}
  where
   types = pAttrs "type" e
@@ -229,12 +229,12 @@ checkContent e = mkTree (flattenT (mkTree [] [type_valid, src_valid]))
       []     -> valid
       [_]   ->
         case types of
-	  []    -> advice "It is advisable to provide a 'type' along with a 'src' attribute"
-	  (_:_) -> valid
+          []    -> advice "It is advisable to provide a 'type' along with a 'src' attribute"
+          (_:_) -> valid
 {-
-	    case parseMIMEType t of
-	      Just{} -> valid
-	      _      -> demand "The 'type' attribute must be a valid MIME type"
+            case parseMIMEType t of
+              Just{} -> valid
+              _      -> demand "The 'type' attribute must be a valid MIME type"
 -}
       ss -> demand ("Expected at most one 'src' attribute, found: " ++ show (length ss))
 
@@ -244,11 +244,11 @@ checkContent e = mkTree (flattenT (mkTree [] [type_valid, src_valid]))
     | otherwise = (v,valid)
 {-
         case parseMIMEType v of
-	  Nothing -> ("text", demand ("Invalid/unknown type value " ++ v))
-	  Just mt ->
-	    case mimeType mt of
-	      Multipart{} -> ("text", demand "Multipart MIME types not a legal 'type'")
-	      _ -> (v, valid)
+          Nothing -> ("text", demand ("Invalid/unknown type value " ++ v))
+          Just mt ->
+            case mimeType mt of
+              Multipart{} -> ("text", demand "Multipart MIME types not a legal 'type'")
+              _ -> (v, valid)
 -}
    where
     std_types = [ "text", "xhtml", "html"]
@@ -292,4 +292,3 @@ checkUri e =
     (_:xs)
      | null xs   -> valid
      | otherwise -> demand ("at most one 'uri' expected in 'author' element, found: " ++ show (1+length xs))
-

@@ -1,5 +1,5 @@
 name:                feed
-version:             0.3.9.7
+version:             0.3.10.2
 license:             BSD3
 license-file:        LICENSE
 category:            Text
@@ -17,7 +17,9 @@ homepage:            https://github.com/bergmark/feed
 bug-reports:         https://github.com/bergmark/feed/issues
 cabal-version:       >= 1.8
 build-type:          Simple
-data-files:          tests/files/rss20.xml
+data-files:
+  tests/files/rss20.xml
+  tests/files/atom.xml
 extra-source-files:
   README.md
   CHANGELOG.md
@@ -68,6 +70,7 @@ test-suite tests
   main-is:           Main.hs
   type:              exitcode-stdio-1.0
   other-modules:
+    Text.Atom.Tests
     Text.RSS.Equals
     Text.RSS.Export.Tests
     Text.RSS.Import.Tests
@@ -75,7 +78,7 @@ test-suite tests
     Text.RSS.Utils
   build-depends:
       base >= 4 && < 4.9
-    , HUnit == 1.2.*
+    , HUnit >= 1.2 && < 1.4
     , feed
     , old-locale == 1.0.*
     , old-time >= 1 && < 1.2

@@ -86,10 +86,10 @@ elementFeed e =
        }
   where
    other_es es = filter (\ el -> not (elName el `elem` known_elts))
-   	                es
+                           es
 
    other_as as = filter (\ a -> not (attrKey a `elem` known_attrs))
-   	                as
+                           as
 
     -- let's have them all (including xml:base and xml:lang + xmlns: stuff)
    known_attrs = []
@@ -182,7 +182,7 @@ pLink e =
        }
  where
    other_as as = filter (\ a -> not (attrKey a `elem` known_attrs))
-   	                as
+                           as
 
    known_attrs = map atomName
       [ "href", "rel", "type", "hreflang", "title", "length"]
@@ -214,7 +214,7 @@ pEntry e =
        }
  where
    other_as as = filter (\ a -> not (attrKey a `elem` known_attrs))
-   	                as
+                           as
 
     -- let's have them all (including xml:base and xml:lang + xmlns: stuff)
    known_attrs = []

@@ -1,3 +1,18 @@
+#### 0.3.10.2
+
+* The Atom RFC says that when a link element doesn't specify the "rel"
+    attribute, i.e. link relation, it should be interpreted as an
+    "alternate" relation.  This makes the feed and item query
+    functions treat a missing relation as "alternate".
+
+#### 0.3.10.1
+
+* Allow `HUnit 1.3.*`
+
+### 0.3.10.0
+
+* Add `Text.Feed.Import.parseFeedSource :: XmlSource s => s -> Maybe Feed` (thanks to Dmitry Dzhus)
+
 #### 0.3.9.7
 
 * Add missing modules in test-suite

@@ -92,23 +92,23 @@ xmlEnclosure e =
         (Attr (qualName "url")    (rssEnclosureURL e)) :
         (Attr (qualName "length") (show $ rssEnclosureLength e)) :
         (Attr (qualName "type")   (rssEnclosureType e)) :
-	rssEnclosureAttrs e }
+        rssEnclosureAttrs e }
 
 xmlCategory :: RSSCategory -> XML.Element
 xmlCategory c =
    (xmlLeaf "category" (rssCategoryValue c))
      { elAttribs =
         (fromMaybe id (fmap (\ n -> ((Attr (qualName "domain") n):))
-	                    (rssCategoryDomain c))) $
-	     (rssCategoryAttrs c) }
+                            (rssCategoryDomain c))) $
+             (rssCategoryAttrs c) }
 
 xmlGuid :: RSSGuid -> XML.Element
 xmlGuid g =
    (xmlLeaf "guid" (rssGuidValue g))
      { elAttribs =
         (fromMaybe id (fmap (\ n -> ((Attr (qualName "isPermaLink") (toBool n)):))
-	                    (rssGuidPermanentURL g))) $
-	     (rssGuidAttrs g) }
+                            (rssGuidPermanentURL g))) $
+             (rssGuidAttrs g) }
  where
   toBool False = "false"
   toBool _ = "true"
@@ -130,11 +130,11 @@ xmlCloud cl =
     (xmlLeaf "cloud" "")
      { elAttribs =
          (  mb (Attr (qualName "domain")) (rssCloudDomain cl)
-	 ++ mb (Attr (qualName "port"))   (rssCloudPort cl)
-	 ++ mb (Attr (qualName "path"))   (rssCloudPath cl)
-	 ++ mb (Attr (qualName "registerProcedure")) (rssCloudRegisterProcedure cl)
-	 ++ mb (Attr (qualName "protocol")) (rssCloudProtocol cl)
-	 ++ rssCloudAttrs cl) }
+         ++ mb (Attr (qualName "port"))   (rssCloudPort cl)
+         ++ mb (Attr (qualName "path"))   (rssCloudPath cl)
+         ++ mb (Attr (qualName "registerProcedure")) (rssCloudRegisterProcedure cl)
+         ++ mb (Attr (qualName "protocol")) (rssCloudProtocol cl)
+         ++ rssCloudAttrs cl) }
 
 xmlTextInput :: RSSTextInput -> XML.Element
 xmlTextInput ti =
@@ -164,8 +164,8 @@ xmlAttr k v = Attr (qualName k) v
 xmlLeaf :: String -> String -> XML.Element
 xmlLeaf tg txt =
  blank_element{ elName = qualName tg
- 	      , elContent = [ Text blank_cdata { cdData = txt } ]
-	      }
+               , elContent = [ Text blank_cdata { cdData = txt } ]
+              }
 
 ---
 mb :: (a -> b) -> Maybe a -> [b]

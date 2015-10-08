@@ -134,8 +134,8 @@ xmlEntry e  = ( atomNode "entry"
            ++ mb  xmlRights (entryRights e)
            ++ mb  xmlSource (entrySource e)
            ++ mb  xmlSummary (entrySummary e)
-	   ++ mb  xmlInReplyTo (entryInReplyTo e)
-	   ++ mb  xmlInReplyTotal (entryInReplyTotal e)
+           ++ mb  xmlInReplyTo (entryInReplyTo e)
+           ++ mb  xmlInReplyTotal (entryInReplyTotal e)
            ++ entryOther e )
 
               { elAttribs = entryAttrs e }
@@ -175,7 +175,7 @@ xmlLink l = (atomNode "link" (map Elem (linkOther l)))
                         ++ mb (atomAttr "hreflang") (linkHrefLang l)
                         ++ mb (atomAttr "title") (linkTitle l)
                         ++ mb (atomAttr "length") (linkLength l)
-			++ linkAttrs l
+                        ++ linkAttrs l
               }
 
 xmlSource :: Source -> Element
@@ -218,18 +218,18 @@ xmlPerson p = map Elem $
 xmlInReplyTo :: InReplyTo -> XML.Element
 xmlInReplyTo irt =
      (atomThreadNode "in-reply-to" (replyToContent irt))
-		 { elAttribs =
-		       mb (atomThreadAttr "ref")  (Just $ replyToRef irt)
-		    ++ mb (atomThreadAttr "href") (replyToHRef irt)
-		    ++ mb (atomThreadAttr "type") (replyToType irt)
-		    ++ mb (atomThreadAttr "source") (replyToSource irt)
-		    ++ replyToOther irt
-		 }
+                 { elAttribs =
+                       mb (atomThreadAttr "ref")  (Just $ replyToRef irt)
+                    ++ mb (atomThreadAttr "href") (replyToHRef irt)
+                    ++ mb (atomThreadAttr "type") (replyToType irt)
+                    ++ mb (atomThreadAttr "source") (replyToSource irt)
+                    ++ replyToOther irt
+                 }
 
 xmlInReplyTotal :: InReplyTotal -> XML.Element
 xmlInReplyTotal irt =
      (atomThreadLeaf "total" (show $ replyToTotal irt))
-		 { elAttribs = replyToTotalOther irt }
+                 { elAttribs = replyToTotalOther irt }
 
 xmlId :: String -> XML.Element
 xmlId i = atomLeaf "id" i

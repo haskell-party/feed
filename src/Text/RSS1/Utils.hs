@@ -100,10 +100,10 @@ removeKnownElts e =
   known_elts =
     concat [ known_rss_elts
            , known_syn_elts
-	   , known_dc_elts
-	   , known_con_elts
-	   , known_tax_elts
-	   ]
+           , known_dc_elts
+           , known_con_elts
+           , known_tax_elts
+           ]
 
 removeKnownAttrs :: XML.Element -> [XML.Attr]
 removeKnownAttrs e =

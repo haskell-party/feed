@@ -52,27 +52,27 @@ xmlService :: Service -> Element
 xmlService s =
   mkElem (appName "service") [xmlns_app,xmlns_atom]
          (concat [ map xmlWorkspace (serviceWorkspaces s)
-	         , serviceOther s
-		 ])
+                 , serviceOther s
+                 ])
 
 xmlWorkspace :: Workspace -> Element
 xmlWorkspace w =
   mkElem (appName "workspace")
          [mkAttr "xml:lang" "en"]
-	 (concat [ [xmlTitle (workspaceTitle w)]
-	         , map xmlCollection (workspaceCols w)
-		 , workspaceOther w
-		 ])
+         (concat [ [xmlTitle (workspaceTitle w)]
+                 , map xmlCollection (workspaceCols w)
+                 , workspaceOther w
+                 ])
 
 xmlCollection :: Collection -> Element
 xmlCollection c =
   mkElem (appName "collection")
          [mkAttr "href" (collectionURI c)]
-	 (concat [ [xmlTitle (collectionTitle c)]
-	         , map xmlAccept (collectionAccept c)
-		 , map xmlCategories (collectionCats c)
-		 , collectionOther c
-		 ])
+         (concat [ [xmlTitle (collectionTitle c)]
+                 , map xmlAccept (collectionAccept c)
+                 , map xmlCategories (collectionCats c)
+                 , collectionOther c
+                 ])
 
 xmlCategories :: Categories -> Element
 xmlCategories (CategoriesExternal u) =
@@ -80,9 +80,9 @@ xmlCategories (CategoriesExternal u) =
 xmlCategories (Categories mbFixed mbScheme cs) =
   mkElem (appName "categories")
          (concat [ mb (\ f -> mkAttr "fixed"  (if f then "yes" else "no")) mbFixed
-	         , mb (mkAttr "scheme") mbScheme
-		 ])
-	 (map xmlCategory cs)
+                 , mb (mkAttr "scheme") mbScheme
+                 ])
+         (map xmlCategory cs)
 
 xmlAccept :: Accept -> Element
 xmlAccept a = mkLeaf (appName "accept") [] (acceptType a)
