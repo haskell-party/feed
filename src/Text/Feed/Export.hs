@@ -11,11 +11,9 @@
 -- Convert from Feeds to XML.
 --
 --------------------------------------------------------------------
-
-
 module Text.Feed.Export
-       ( Text.Feed.Export.xmlFeed  -- :: Feed -> XML.Element
-       ) where
+  ( Text.Feed.Export.xmlFeed -- :: Feed -> XML.Element
+  ) where
 
 import Text.Feed.Types
 
@@ -30,7 +28,7 @@ import Text.XML.Light as XML
 xmlFeed :: Feed -> XML.Element
 xmlFeed fe =
   case fe of
-   AtomFeed f -> Atom.xmlFeed f
-   RSSFeed  f -> RSS.xmlRSS f
-   RSS1Feed f -> RSS1.xmlFeed f
-   XMLFeed e  -> e -- that was easy!
+    AtomFeed f -> Atom.xmlFeed f
+    RSSFeed f -> RSS.xmlRSS f
+    RSS1Feed f -> RSS1.xmlFeed f
+    XMLFeed e -> e -- that was easy!

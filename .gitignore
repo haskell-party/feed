@@ -6,3 +6,4 @@ setup
 .cabal-sandbox/
 .idea/
 cabal.sandbox.config
+HLint.hs

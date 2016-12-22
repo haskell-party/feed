@@ -12,18 +12,16 @@ import Text.XML.Light
 import Paths_feed
 
 rssTests :: Test
-rssTests = testGroup "Text.RSS"
-    [ mutuallyExclusive $ testGroup "RSS"
-        [ rssExportTests
-          , rssImportTests
-          , testFullRss20Parse
-        ]
-    ]
+rssTests =
+  testGroup
+    "Text.RSS"
+    [mutuallyExclusive $ testGroup "RSS" [rssExportTests, rssImportTests, testFullRss20Parse]]
 
 testFullRss20Parse :: Test
 testFullRss20Parse = testCase "parse a complete rss 2.0 file" testRss20
   where
     testRss20 :: Assertion
     testRss20 = do
-      putStrLn . ppTopElement . xmlFeed =<< parseFeedFromFile =<< getDataFileName "tests/files/rss20.xml"
+      putStrLn . ppTopElement . xmlFeed =<<
+        parseFeedFromFile =<< getDataFileName "tests/files/rss20.xml"
       assertBool "OK" True

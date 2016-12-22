@@ -12,12 +12,13 @@
 -- Translating between RSS formats; work in progress.
 --
 module Text.Feed.Translate
-       ( translateItemTo  -- :: FeedKind -> Item -> Item
-       , withAtomEntry    -- :: (Atom.Entry -> Atom.Entry) -> Item -> Item
-       , withRSSItem      -- :: (RSS.RSSItem -> RSS.RSSItem) -> Item -> Item
-       , withRSS1Item     -- :: (RSS1.Item -> RSS1.Item) -> Item -> Item
-       ) where
+  ( translateItemTo -- :: FeedKind -> Item -> Item
+  , withAtomEntry -- :: (Atom.Entry -> Atom.Entry) -> Item -> Item
+  , withRSSItem -- :: (RSS.RSSItem -> RSS.RSSItem) -> Item -> Item
+  , withRSS1Item -- :: (RSS1.Item -> RSS1.Item) -> Item -> Item
+  ) where
 
+import Control.Arrow ((&&&))
 import Text.Atom.Feed as Atom
 import Text.Feed.Constructor
 import Text.Feed.Types as Feed
@@ -31,7 +32,6 @@ import Data.Maybe (fromMaybe)
 -- is performed (i.e., no on-the-fly translation into the requested
 -- format is performed; the caller is responsible
 --
-
 withAtomEntry :: (Atom.Entry -> Atom.Entry) -> Item -> Item
 withAtomEntry f it =
   case it of
@@ -53,7 +53,7 @@ withRSS1Item f it =
 translateItemTo :: FeedKind -> Item -> Item
 translateItemTo fk it =
   case fk of
-    AtomKind  -> toAtomItem it
+    AtomKind -> toAtomItem it
     RSSKind v -> toRSSItem v it
     RDFKind v -> toRDFItem v it
 
@@ -66,42 +66,40 @@ toRDFItem = error "toRDFItem: unimplemented"
 toAtomItem :: Item -> Item
 toAtomItem it =
   case it of
-    AtomItem{} -> it
-    RSS1Item{} -> error "toAtomItem: unimplemented (from RSS1 item rep.)"
-    XMLItem{}  -> error "toAtomItem: unimplemented (from shallow XML rep.)"
-    Feed.RSSItem ri -> foldl (\ oi f -> f oi) outIt pipeline_rss_atom
-      where
-       outIt =
-         (flip withAtomEntry) (newItem AtomKind)
-           (\ e -> e{ Atom.entryOther = RSS.rssItemOther ri
+    AtomItem {} -> it
+    RSS1Item {} -> error "toAtomItem: unimplemented (from RSS1 item rep.)"
+    XMLItem {} -> error "toAtomItem: unimplemented (from shallow XML rep.)"
+    Feed.RSSItem ri -> foldl (\oi f -> f oi) outIt pipeline_rss_atom
+      where outIt =
+              withAtomEntry
+                (\e ->
+                    e
+                    { Atom.entryOther = RSS.rssItemOther ri
                     , Atom.entryAttrs = RSS.rssItemAttrs ri
                     })
-
-       pipeline_rss_atom =
-         [ mb withItemTitle       (rssItemTitle ri)
-         , mb withItemLink        (rssItemLink  ri)
-         , mb withItemDescription (rssItemDescription ri)
-         , mb withItemAuthor      (rssItemAuthor ri)
-         , ls withItemCategories  (rssItemCategories ri)
-         , mb withItemId'         (rssItemGuid ri)
-         , mb withItemCommentLink (rssItemComments ri)
-         , mb withItemEnclosure'  (rssItemEnclosure ri)
-         , mb withItemPubDate     (rssItemPubDate ri)
-         ]
-
-       withItemEnclosure' e =
-          withItemEnclosure (rssEnclosureURL e)
-                            (Just $ rssEnclosureType e)
-                            (rssEnclosureLength e)
-       withItemId' g = withItemId (fromMaybe True (rssGuidPermanentURL g)) (rssGuidValue g)
-
-       mb _ Nothing  = id
-       mb f (Just v) = f v
-
-       ls _ [] = id
-        -- hack, only used for cats, so specialize:
-       ls f xs = f (map (\ c -> (rssCategoryValue c, rssCategoryDomain c)) xs)
-
+                (newItem AtomKind)
+            pipeline_rss_atom =
+              [ mb withItemTitle (rssItemTitle ri)
+              , mb withItemLink (rssItemLink ri)
+              , mb withItemDescription (rssItemDescription ri)
+              , mb withItemAuthor (rssItemAuthor ri)
+              , ls withItemCategories (rssItemCategories ri)
+              , mb withItemId' (rssItemGuid ri)
+              , mb withItemCommentLink (rssItemComments ri)
+              , mb withItemEnclosure' (rssItemEnclosure ri)
+              , mb withItemPubDate (rssItemPubDate ri)
+              ]
+            withItemEnclosure' e =
+              withItemEnclosure
+                (rssEnclosureURL e)
+                (Just $ rssEnclosureType e)
+                (rssEnclosureLength e)
+            withItemId' g = withItemId (fromMaybe True (rssGuidPermanentURL g)) (rssGuidValue g)
+            mb _ Nothing = id
+            mb f (Just v) = f v
+            ls _ [] = id
+            -- hack, only used for cats, so specialize:
+            ls f xs = f $ map (rssCategoryValue &&& rssCategoryDomain) xs
 {-
        pipeline_rss_atom =
         [ withItemTitle    (rssItemTitle ri)

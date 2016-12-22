@@ -14,19 +14,18 @@ import Text.XML.Light
 import Paths_feed
 
 atomTests :: Test
-atomTests = testGroup "Text.Atom"
-    [ mutuallyExclusive $ testGroup "Atom"
-        [ testFullAtomParse
-        , testAtomAlternate
-        ]
-    ]
+atomTests =
+  testGroup
+    "Text.Atom"
+    [mutuallyExclusive $ testGroup "Atom" [testFullAtomParse, testAtomAlternate]]
 
 testFullAtomParse :: Test
 testFullAtomParse = testCase "parse a complete atom file" testAtom
   where
     testAtom :: Assertion
     testAtom = do
-      putStrLn . ppTopElement . xmlFeed =<< parseFeedFromFile =<< getDataFileName "tests/files/atom.xml"
+      putStrLn . ppTopElement . xmlFeed =<<
+        parseFeedFromFile =<< getDataFileName "tests/files/atom.xml"
       assertBool "OK" True
 
 testAtomAlternate :: Test
@@ -35,5 +34,9 @@ testAtomAlternate = testCase "*unspecified* link relation means 'alternate'" tes
     testAlt :: Assertion
     testAlt =
       let nullent = nullEntry "" (TextString "") ""
-          item = AtomItem nullent { entryLinks = [nullLink ""] }
-      in  assertBool "unspecified means alternate" $ isJust $ getItemLink item
+          item =
+            AtomItem
+              nullent
+              { entryLinks = [nullLink ""]
+              }
+      in assertBool "unspecified means alternate" . isJust $ getItemLink item
