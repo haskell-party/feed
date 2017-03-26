@@ -1,5 +1,8 @@
 module Example where
 
+import Prelude ()
+import Prelude.Compat
+
 import Example.CreateAtom (createAtom)
 import Test.HUnit (Assertion)
 import Test.Framework (Test, testGroup)

@@ -2,6 +2,9 @@ module Main
   ( main
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Example (exampleTests)
 import Test.Framework (defaultMain)
 import Text.RSS.Tests (rssTests)

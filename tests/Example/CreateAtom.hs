@@ -2,6 +2,9 @@ module Example.CreateAtom
   ( createAtom
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import qualified Text.Atom.Feed as Atom
 import qualified Text.Atom.Feed.Export as Export
 import qualified Text.XML.Light.Output as XML

@@ -14,12 +14,15 @@ module Text.RSS1.Export
   ( xmlFeed
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.XML.Light as XML
 import Text.RSS1.Syntax
 import Text.RSS1.Utils
 import Text.DublinCore.Types
 
-import Data.List
+import Data.List.Compat
 import Data.Maybe
 
 qualNode :: (Maybe String, Maybe String) -> String -> [XML.Content] -> XML.Element

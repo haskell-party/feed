@@ -67,6 +67,7 @@ library
     Text.RSS1.Utils
   build-depends:
       base >= 4 && < 4.10
+    , base-compat == 0.9.*
     , old-locale == 1.0.*
     , old-time >= 1 && < 1.2
     , time < 1.7
@@ -93,6 +94,7 @@ test-suite tests
   build-depends:
       base >= 4 && < 4.10
     , HUnit >= 1.2 && < 1.7
+    , base-compat == 0.9.*
     , feed
     , old-locale == 1.0.*
     , old-time >= 1 && < 1.2

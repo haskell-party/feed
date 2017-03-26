@@ -1,5 +1,8 @@
 module Text.RSS.Utils where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.XML.Light as XML
 
 createContent :: String -> Content

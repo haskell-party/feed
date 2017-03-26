@@ -2,6 +2,9 @@
 
 module Text.RSS.Equals where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.XML.Light (Element(..), Content(..), CData(..))
 import Text.RSS.Syntax (RSSCloud(..))
 

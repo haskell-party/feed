@@ -38,6 +38,9 @@ module Text.Atom.Feed.Import
   , pInReplyTo
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Data.Maybe (listToMaybe, mapMaybe, isNothing)
 import Data.List (find)
 import Control.Monad (guard, mplus)
@@ -78,7 +81,7 @@ pAttr x e =
 pAttrs :: String -> XML.Element -> [String]
 pAttrs x e =
   [ v
-  | Attr k v <- elAttribs e 
+  | Attr k v <- elAttribs e
   , k == atomName x ]
 
 pQAttr :: QName -> XML.Element -> Maybe String

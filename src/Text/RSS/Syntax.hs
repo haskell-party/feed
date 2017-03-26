@@ -39,6 +39,9 @@ module Text.RSS.Syntax
   , nullTextInput
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.XML.Light as XML
 
 -- * Core Types

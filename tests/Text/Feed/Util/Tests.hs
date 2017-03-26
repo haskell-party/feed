@@ -1,5 +1,8 @@
 module Text.Feed.Util.Tests where
 
+import Prelude ()
+import Prelude.Compat
+
 import Data.Time
 import Data.Time.Clock.POSIX
 import Test.Framework (Test, testGroup)

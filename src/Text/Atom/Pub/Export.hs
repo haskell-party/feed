@@ -28,6 +28,9 @@ module Text.Atom.Pub.Export
   , xmlAccept
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.XML.Light
 import Text.Atom.Pub
 import Text.Atom.Feed.Export

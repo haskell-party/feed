@@ -14,6 +14,9 @@ module Text.RSS1.Import
   ( elementToFeed
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.RSS1.Syntax
 import Text.RSS1.Utils
 import Text.XML.Light as XML

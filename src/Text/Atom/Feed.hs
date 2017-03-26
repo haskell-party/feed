@@ -36,6 +36,9 @@ module Text.Atom.Feed
   , nullPerson
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import qualified Text.XML.Light as XML
 
 -- *Core types

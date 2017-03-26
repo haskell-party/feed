@@ -45,6 +45,9 @@ module Text.Feed.Query
   , getItemDescription -- :: ItemGetter String (synonym of previous.)
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.Feed.Types as Feed
 
 import Text.RSS.Syntax as RSS
@@ -58,7 +61,7 @@ import Text.DublinCore.Types
 import Control.Arrow ((&&&))
 import Control.Monad (mplus)
 import Control.Applicative ((<|>))
-import Data.List
+import Data.List.Compat
 import Data.Maybe
 
 -- for getItemPublishDate rfc822 date parsing.

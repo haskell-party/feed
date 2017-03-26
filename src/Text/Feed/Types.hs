@@ -16,6 +16,9 @@ module Text.Feed.Types
   , FeedKind(..)
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import qualified Text.RSS.Syntax as RSS
 import qualified Text.Atom.Feed as Atom
 import qualified Text.RSS1.Syntax as RSS1

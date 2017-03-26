@@ -1,5 +1,8 @@
 module Text.RSS.Import.Tests where
 
+import Prelude ()
+import Prelude.Compat
+
 import Test.HUnit (Assertion, assertEqual)
 import Test.Framework (Test, mutuallyExclusive, testGroup)
 import Test.Framework.Providers.HUnit (testCase)

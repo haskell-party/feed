@@ -16,6 +16,9 @@ module Text.Atom.Feed.Link
   , showLinkAttr
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 -- | Atom feeds uses typed IRI links to represent
 -- information \/ metadata that is of interest to the
 -- consumers (software, in the main) of feeds. For instance,

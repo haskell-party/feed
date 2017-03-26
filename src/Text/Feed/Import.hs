@@ -23,6 +23,9 @@ module Text.Feed.Import
   , readAtom -- :: XML.Element -> Maybe Feed
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.Atom.Feed.Import as Atom
 import Text.RSS.Import as RSS
 import Text.RSS1.Import as RSS1

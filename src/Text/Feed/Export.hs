@@ -15,6 +15,9 @@ module Text.Feed.Export
   ( Text.Feed.Export.xmlFeed -- :: Feed -> XML.Element
   ) where
 
+import Prelude ()
+import Prelude.Compat ()
+
 import Text.Feed.Types
 
 import Text.Atom.Feed.Export as Atom

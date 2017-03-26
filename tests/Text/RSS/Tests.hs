@@ -1,5 +1,8 @@
 module Text.RSS.Tests where
 
+import Prelude ()
+import Prelude.Compat
+
 import Test.Framework (Test, mutuallyExclusive, testGroup)
 import Text.RSS.Export.Tests (rssExportTests)
 import Text.RSS.Import.Tests (rssImportTests)

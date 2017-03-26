@@ -52,6 +52,9 @@ module Text.Feed.Constructor
   , withItemRights -- :: ItemSetter String
   ) where
 
+import Prelude ()
+import Prelude.Compat
+
 import Text.Feed.Types as Feed.Types
 
 import Text.Atom.Feed as Atom

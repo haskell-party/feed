@@ -1,5 +1,8 @@
 module Text.Atom.Tests where
 
+import Prelude ()
+import Prelude.Compat
+
 import Data.Maybe (isJust)
 import Test.Framework (Test, mutuallyExclusive, testGroup)
 import Test.HUnit (Assertion, assertBool)
