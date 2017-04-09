@@ -1,9 +1,10 @@
-dist
-*~
-setup
 *.hi
 *.o
-.cabal-sandbox/
-.idea/
-cabal.sandbox.config
+*~
+/.cabal-sandbox/
+/.idea/
+/dist-newstyle/
 HLint.hs
+cabal.sandbox.config
+dist
+setup
