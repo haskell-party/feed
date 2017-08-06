@@ -8,3 +8,4 @@ HLint.hs
 cabal.sandbox.config
 dist
 setup
+.stack-work/
