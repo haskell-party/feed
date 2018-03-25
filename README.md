@@ -74,6 +74,7 @@ data Post
   }
 
 examplePosts :: [Post]
+examplePosts = []
 ```
 
 Our `Post` data type will need to be converted into an `Entry` in order to use it in the top level `Feed`. The required fields for an entry are a url "id" from which the entry can be presence validated, a title for the entry, and a posting date. In this example we'll also add authors, link, and the actual entries content, since we have all of this available in the `Post` provided.
@@ -126,3 +127,8 @@ feed posts =
 
 ```
 See [here](https://github.com/bergmark/feed/blob/master/tests/Example/CreateAtom.hs) for this content as an uninterrupted running example.
+
+```haskell
+main :: IO ()
+main = pure ()
+```
