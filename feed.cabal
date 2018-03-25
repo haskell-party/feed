@@ -104,3 +104,14 @@ test-suite tests
     , time-locale-compat == 0.1.*
     , utf8-string < 1.1
     , xml >= 1.2.6 && < 1.4
+
+test-suite readme
+  ghc-options: -pgmL markdown-unlit
+  main-is: README.lhs
+  type: exitcode-stdio-1.0
+  build-depends:
+      base >= 4 && < 4.11
+    , feed
+    , xml >= 1.2.6 && < 1.4
+  build-tool-depends:
+      markdown-unlit:markdown-unlit == 0.4.*
