@@ -130,5 +130,5 @@ See [here](https://github.com/bergmark/feed/blob/master/tests/Example/CreateAtom
 
 ```haskell
 main :: IO ()
-main = pure ()
+main = return ()
 ```
