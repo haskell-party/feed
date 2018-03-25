@@ -32,9 +32,10 @@ minimum viable 'X', use the 'nullX' constructor.*
 
 
 ```haskell
+import Data.Time.Clock
 import qualified Text.Atom.Feed as Atom
 import qualified Text.Atom.Feed.Export as Export
-import qualified Text.XML.Light.Output as XML
+import qualified Text.XML.Light as XML
 
 myFeed :: Atom.Feed
 myFeed = Atom.nullFeed
@@ -83,7 +84,7 @@ toEntry (Post date url content) =
   (Atom.nullEntry
       url -- The ID field. Must be a link to validate.
       (Atom.TextString (take 20 content)) -- Title
-      "2017-08-01"
+      "2017-08-01")
   { Atom.entryAuthors = authors
   , Atom.entryLinks = [Atom.nullLink url]
   , Atom.entryContent = Just (Atom.HTMLContent content)

@@ -112,6 +112,7 @@ test-suite readme
   build-depends:
       base >= 4 && < 4.11
     , feed
+    , time < 1.9
     , xml >= 1.2.6 && < 1.4
   build-tool-depends:
       markdown-unlit:markdown-unlit == 0.4.*
