@@ -73,7 +73,7 @@ library
     Data.Text.Util
     Data.XML.Compat
   build-depends:
-      base >= 4 && < 4.12
+      base >= 4 && < 4.13
     , base-compat >= 0.9 && < 0.11
     , bytestring >= 0.9 && < 0.11
     , old-locale == 1.0.*
@@ -106,7 +106,7 @@ test-suite tests
     Text.RSS.Tests
     Text.RSS.Utils
   build-depends:
-      base >= 4 && < 4.12
+      base >= 4 && < 4.13
     , base-compat >= 0.9 && < 0.11
     , HUnit >= 1.2 && < 1.7
     , feed
@@ -126,7 +126,7 @@ test-suite readme
     OverloadedStrings
   type:              exitcode-stdio-1.0
   build-depends:
-      base >= 4 && < 4.12
+      base >= 4 && < 4.13
     , base-compat >= 0.9 && < 0.11
     , text
     , xml-types
