@@ -1,6 +1,7 @@
 module Data.Text.Util
   ( readInt
   , renderFeed
+  , renderFeedWith
   ) where
 
 import Prelude.Compat
@@ -19,10 +20,12 @@ readInt s =
     _ -> Nothing
 
 renderFeed :: (a -> XT.Element) -> a -> Maybe TL.Text
-renderFeed cf f = let e = cf f
-                      d = elToDoc e
-                  in XC.renderText XC.def <$> d
+renderFeed = renderFeedWith XC.def
 
+renderFeedWith :: XC.RenderSettings -> (a -> XT.Element) -> a -> Maybe TL.Text
+renderFeedWith opts cf f = let e = cf f
+                               d = elToDoc e
+                           in XC.renderText opts <$> d
 
 -- Ancillaries --
 

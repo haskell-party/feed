@@ -14,6 +14,7 @@
 module Text.Feed.Export
   ( Text.Feed.Export.xmlFeed -- :: Feed -> XML.Element
   , Text.Feed.Export.textFeed -- :: Feed -> TL.Text
+  , Text.Feed.Export.textFeedWith
   ) where
 
 import Prelude.Compat
@@ -26,6 +27,7 @@ import Text.RSS1.Export as RSS1
 import qualified Data.Text.Util as U
 
 import Data.XML.Types as XML
+import Text.XML (RenderSettings)
 import qualified Data.Text.Lazy as TL
 
 -- | 'xmlFeed f' serializes a @Feed@ document into a conforming
@@ -40,3 +42,6 @@ xmlFeed fe =
 
 textFeed :: Feed -> Maybe TL.Text
 textFeed = U.renderFeed Text.Feed.Export.xmlFeed
+
+textFeedWith :: RenderSettings -> Feed -> Maybe TL.Text
+textFeedWith settings = U.renderFeedWith settings Text.Feed.Export.xmlFeed
