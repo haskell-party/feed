@@ -42,6 +42,7 @@ module Text.Feed.Query
   , getItemCategories -- :: ItemGetter [Text]
   , getItemRights -- :: ItemGetter Text
   , getItemSummary -- :: ItemGetter Text
+  , getItemContent -- :: ItemGetter Text
   , getItemDescription -- :: ItemGetter Text (synonym of previous.)
   ) where
 
@@ -430,6 +431,14 @@ getItemRights it =
   where
     isRights dc = dcElt dc == DC_Rights
 
+getItemContent :: ItemGetter Text
+getItemContent it =
+  case it of
+    Feed.AtomItem e -> atomContentToStr <$> Atom.entryContent e
+    Feed.RSSItem e -> RSS.rssItemContent e
+    Feed.RSS1Item _ -> Nothing
+    Feed.XMLItem i -> strContent <$> findElement (atomName "content") i
+
 getItemSummary :: ItemGetter Text
 getItemSummary = getItemDescription
 
@@ -446,6 +455,15 @@ toStr :: Maybe (Either Text Text) -> Text
 toStr Nothing = ""
 toStr (Just (Left x)) = x
 toStr (Just (Right x)) = x
+
+atomContentToStr :: EntryContent -> Text
+atomContentToStr entry =
+  case entry of
+    HTMLContent e -> e
+    XHTMLContent e -> T.unlines $ elementText e
+    MixedContent text _ -> fromMaybe "" text
+    ExternalContent _ b -> b
+    TextContent text -> text
 
 contentToStr :: TextContent -> Text
 contentToStr x =

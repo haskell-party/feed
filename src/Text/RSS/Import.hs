@@ -221,6 +221,7 @@ elementToItem e = do
       , rssItemAuthor = pLeaf "author" es `mplus` pQLeaf (dcName "creator") es
       , rssItemCategories = pMany "category" elementToCategory es
       , rssItemComments = pLeaf "comments" es
+      , rssItemContent = pLeaf "content" es
       , rssItemEnclosure = pNode "enclosure" es >>= elementToEnclosure
       , rssItemGuid = pNode "guid" es >>= elementToGuid
       , rssItemPubDate = pLeaf "pubDate" es `mplus` pQLeaf (dcName "date") es
