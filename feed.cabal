@@ -24,8 +24,7 @@ bug-reports:         https://github.com/bergmark/feed/issues
 cabal-version:       >= 1.8
 build-type:          Simple
 tested-with:
-    GHC == 7.4.2
-  , GHC == 7.6.3
+    GHC == 7.6.3
   , GHC == 7.8.4
   , GHC == 7.10.3
   , GHC == 8.0.2
@@ -112,7 +111,7 @@ test-suite tests
     Text.RSS.Tests
     Text.RSS.Utils
   build-depends:
-      base >= 4 && < 4.15
+      base >= 4.6 && < 4.15
     , base-compat >= 0.9 && < 0.12
     , HUnit >= 1.2 && < 1.7
     , feed
@@ -133,7 +132,7 @@ test-suite readme
     OverloadedStrings
   type:              exitcode-stdio-1.0
   build-depends:
-      base >= 4 && < 4.15
+      base >= 4.6 && < 4.15
     , base-compat >= 0.9 && < 0.12
     , text
     , xml-types
