@@ -91,6 +91,7 @@ data RSSItem = RSSItem
   , rssItemAuthor :: Maybe Text
   , rssItemCategories :: [RSSCategory]
   , rssItemComments :: Maybe URLString
+  , rssItemContent :: Maybe Text
   , rssItemEnclosure :: Maybe RSSEnclosure
   , rssItemGuid :: Maybe RSSGuid
   , rssItemPubDate :: Maybe DateString
@@ -200,6 +201,7 @@ nullItem title =
     , rssItemAuthor = Nothing
     , rssItemCategories = []
     , rssItemComments = Nothing
+    , rssItemContent = Nothing
     , rssItemEnclosure = Nothing
     , rssItemGuid = Nothing
     , rssItemPubDate = Nothing
