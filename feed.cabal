@@ -24,8 +24,7 @@ bug-reports:         https://github.com/bergmark/feed/issues
 cabal-version:       >= 1.8
 build-type:          Simple
 tested-with:
-    GHC == 7.4.2
-  , GHC == 7.6.3
+    GHC == 7.6.3
   , GHC == 7.8.4
   , GHC == 7.10.3
   , GHC == 8.0.2
