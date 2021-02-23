@@ -111,7 +111,7 @@ test-suite tests
     Text.RSS.Tests
     Text.RSS.Utils
   build-depends:
-      base >= 4 && < 4.15
+      base >= 4.6 && < 4.15
     , base-compat >= 0.9 && < 0.12
     , HUnit >= 1.2 && < 1.7
     , feed
@@ -132,7 +132,7 @@ test-suite readme
     OverloadedStrings
   type:              exitcode-stdio-1.0
   build-depends:
-      base >= 4 && < 4.15
+      base >= 4.6 && < 4.15
     , base-compat >= 0.9 && < 0.12
     , text
     , xml-types
