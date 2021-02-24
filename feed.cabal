@@ -150,6 +150,7 @@ test-suite readme-doctests
     , doctest
     , doctest-driver-gen
     , feed
+    , text
   build-tool-depends:
       markdown-unlit:markdown-unlit >= 0.4 && < 0.6
     , doctest-driver-gen:doctest-driver-gen
