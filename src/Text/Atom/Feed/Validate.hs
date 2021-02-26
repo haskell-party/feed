@@ -53,8 +53,7 @@ import Data.List.Compat
 import Data.Maybe
 
 data VTree a
-  = VNode [a]
-          [VTree a]
+  = VNode [a] [VTree a]
   | VLeaf [a]
   deriving (Eq, Show)
 
@@ -149,8 +148,7 @@ checkLinks e =
   case pNodes "link" (elementChildren e) of
     xs ->
       case map fst $
-           filter (\(_, n) -> n == "alternate") $
-           mapMaybe (\ex -> (ex,) <$> pAttr "rel" ex) xs of
+           filter (\(_, n) -> n == "alternate") $ mapMaybe (\ex -> (ex, ) <$> pAttr "rel" ex) xs of
         xs1 ->
           let jmb (Just x) (Just y) = Just (x, y)
               jmb _ _ = Nothing

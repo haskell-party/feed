@@ -17,10 +17,10 @@ module Text.RSS1.Export
 
 import Prelude.Compat
 
+import qualified Data.Text.Util as U
 import Text.DublinCore.Types
 import Text.RSS1.Syntax
 import Text.RSS1.Utils
-import qualified Data.Text.Util as U
 
 import Data.List.Compat
 import Data.Text (Text)

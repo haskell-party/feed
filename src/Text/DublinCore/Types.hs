@@ -24,10 +24,12 @@ import Prelude.Compat
 import Data.Text
 
 -- | A DCItem pairs a specific element with its (string) value.
-data DCItem = DCItem
-  { dcElt :: DCInfo
-  , dcText :: Text
-  } deriving (Eq, Show)
+data DCItem =
+  DCItem
+    { dcElt :: DCInfo
+    , dcText :: Text
+    }
+  deriving (Eq, Show)
 
 -- | The Dublin Core Metadata Element Set, all 15 of them (plus an extension constructor.)
 data DCInfo
