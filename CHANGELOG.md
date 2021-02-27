@@ -1,3 +1,6 @@
+### 1.3.2.0
+* Expose RSS/Atom item content through queries by using `getItemContent`.
+
 ### 1.3.0.1
 * Add a test to check that validation works on a simple entry.
 * Change attribute handling when validating so that type attribute is recognised properly on content.
