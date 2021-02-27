@@ -69,7 +69,7 @@ instance FeedSource String where
 -- | 'parseFeedFromFile fp' reads in the contents of the file at @fp@;
 -- the assumed encoding is UTF-8.
 parseFeedFromFile :: FilePath -> IO (Maybe Feed)
-parseFeedFromFile fp = parseFeedString <$> utf8readFile fp 
+parseFeedFromFile fp = parseFeedString <$> utf8readFile fp
 
 -- | 'parseFeedWithParser tries to parse the string @str@
 -- as one of the feed formats. First as Atom, then RSS2 before

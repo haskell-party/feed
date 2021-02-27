@@ -47,79 +47,91 @@ type TimeString = Text
 
 type TextString = Text
 
-data Feed = Feed
-  { feedVersion :: Text
-  , feedChannel :: Channel
-  , feedImage :: Maybe Image
-  , feedItems :: [Item]
-  , feedTextInput :: Maybe TextInputInfo
-  , feedTopics :: [TaxonomyTopic]
-  , feedOther :: [XML.Element]
-  , feedAttrs :: [Attr]
-  } deriving (Show)
+data Feed =
+  Feed
+    { feedVersion :: Text
+    , feedChannel :: Channel
+    , feedImage :: Maybe Image
+    , feedItems :: [Item]
+    , feedTextInput :: Maybe TextInputInfo
+    , feedTopics :: [TaxonomyTopic]
+    , feedOther :: [XML.Element]
+    , feedAttrs :: [Attr]
+    }
+  deriving (Show)
 
-data Channel = Channel
-  { channelURI :: URIString
-  , channelTitle :: TitleString
-  , channelLink :: URIString
-  , channelDesc :: TextString
+data Channel =
+  Channel
+    { channelURI :: URIString
+    , channelTitle :: TitleString
+    , channelLink :: URIString
+    , channelDesc :: TextString
            -- these are indirect RDF associations to elements declared
            -- outside the channel element in the RDF \/ feed document.
-  , channelImageURI :: Maybe URIString
-  , channelItemURIs :: [URIString]
-  , channelTextInputURI :: Maybe URIString
-  , channelDC :: [DCItem]
-  , channelUpdatePeriod :: Maybe UpdatePeriod
-  , channelUpdateFreq :: Maybe Integer
-  , channelUpdateBase :: Maybe TimeString -- format is yyyy-mm-ddThh:mm
-  , channelContent :: [ContentInfo]
-  , channelTopics :: [URIString]
-  , channelOther :: [XML.Element]
-  , channelAttrs :: [Attr]
-  } deriving (Show)
+    , channelImageURI :: Maybe URIString
+    , channelItemURIs :: [URIString]
+    , channelTextInputURI :: Maybe URIString
+    , channelDC :: [DCItem]
+    , channelUpdatePeriod :: Maybe UpdatePeriod
+    , channelUpdateFreq :: Maybe Integer
+    , channelUpdateBase :: Maybe TimeString -- format is yyyy-mm-ddThh:mm
+    , channelContent :: [ContentInfo]
+    , channelTopics :: [URIString]
+    , channelOther :: [XML.Element]
+    , channelAttrs :: [Attr]
+    }
+  deriving (Show)
 
-data Image = Image
-  { imageURI :: URIString -- the image resource, most likely.
-  , imageTitle :: TextString -- the "alt"ernative text.
-  , imageURL :: URIString
-  , imageLink :: URIString -- the href of the rendered img resource.
-  , imageDC :: [DCItem]
-  , imageOther :: [XML.Element]
-  , imageAttrs :: [Attr]
-  } deriving (Show)
+data Image =
+  Image
+    { imageURI :: URIString -- the image resource, most likely.
+    , imageTitle :: TextString -- the "alt"ernative text.
+    , imageURL :: URIString
+    , imageLink :: URIString -- the href of the rendered img resource.
+    , imageDC :: [DCItem]
+    , imageOther :: [XML.Element]
+    , imageAttrs :: [Attr]
+    }
+  deriving (Show)
 
-data Item = Item
-  { itemURI :: URIString
-  , itemTitle :: TextString
-  , itemLink :: URIString
-  , itemDesc :: Maybe TextString
-  , itemDC :: [DCItem]
-  , itemTopics :: [URIString]
-  , itemContent :: [ContentInfo]
-  , itemOther :: [XML.Element]
-  , itemAttrs :: [Attr]
-  } deriving (Show)
+data Item =
+  Item
+    { itemURI :: URIString
+    , itemTitle :: TextString
+    , itemLink :: URIString
+    , itemDesc :: Maybe TextString
+    , itemDC :: [DCItem]
+    , itemTopics :: [URIString]
+    , itemContent :: [ContentInfo]
+    , itemOther :: [XML.Element]
+    , itemAttrs :: [Attr]
+    }
+  deriving (Show)
 
-data TextInputInfo = TextInputInfo
-  { textInputURI :: URIString
-  , textInputTitle :: TextString
-  , textInputDesc :: TextString
-  , textInputName :: TextString
-  , textInputLink :: URIString
-  , textInputDC :: [DCItem]
-  , textInputOther :: [XML.Element]
-  , textInputAttrs :: [Attr]
-  } deriving (Show)
+data TextInputInfo =
+  TextInputInfo
+    { textInputURI :: URIString
+    , textInputTitle :: TextString
+    , textInputDesc :: TextString
+    , textInputName :: TextString
+    , textInputLink :: URIString
+    , textInputDC :: [DCItem]
+    , textInputOther :: [XML.Element]
+    , textInputAttrs :: [Attr]
+    }
+  deriving (Show)
 
-data TaxonomyTopic = TaxonomyTopic
-  { taxonomyURI :: URIString
-  , taxonomyLink :: URIString
-  , taxonomyTitle :: Maybe Text
-  , taxonomyDesc :: Maybe Text
-  , taxonomyTopics :: [URIString]
-  , taxonomyDC :: [DCItem]
-  , taxonomyOther :: [XML.Element]
-  } deriving (Show)
+data TaxonomyTopic =
+  TaxonomyTopic
+    { taxonomyURI :: URIString
+    , taxonomyLink :: URIString
+    , taxonomyTitle :: Maybe Text
+    , taxonomyDesc :: Maybe Text
+    , taxonomyTopics :: [URIString]
+    , taxonomyDC :: [DCItem]
+    , taxonomyOther :: [XML.Element]
+    }
+  deriving (Show)
 
 data UpdatePeriod
   = Update_Hourly
@@ -129,12 +141,14 @@ data UpdatePeriod
   | Update_Yearly
   deriving (Eq, Show)
 
-data ContentInfo = ContentInfo
-  { contentURI :: Maybe URIString
-  , contentFormat :: Maybe URIString
-  , contentEncoding :: Maybe URIString
-  , contentValue :: Maybe Text -- should be: RDFValue
-  } deriving (Eq, Show)
+data ContentInfo =
+  ContentInfo
+    { contentURI :: Maybe URIString
+    , contentFormat :: Maybe URIString
+    , contentEncoding :: Maybe URIString
+    , contentValue :: Maybe Text -- should be: RDFValue
+    }
+  deriving (Eq, Show)
 
 --default constructors:
 nullFeed :: URIString -> TitleString -> Feed

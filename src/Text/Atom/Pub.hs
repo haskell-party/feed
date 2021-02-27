@@ -26,32 +26,34 @@ import Data.Text (Text)
 import Data.XML.Types as XML
 import Text.Atom.Feed (Category, TextContent, URI)
 
-data Service = Service
-  { serviceWorkspaces :: [Workspace]
-  , serviceOther :: [XML.Element]
-  }
+data Service =
+  Service
+    { serviceWorkspaces :: [Workspace]
+    , serviceOther :: [XML.Element]
+    }
 
-data Workspace = Workspace
-  { workspaceTitle :: TextContent
-  , workspaceCols :: [Collection]
-  , workspaceOther :: [XML.Element]
-  }
+data Workspace =
+  Workspace
+    { workspaceTitle :: TextContent
+    , workspaceCols :: [Collection]
+    , workspaceOther :: [XML.Element]
+    }
 
-data Collection = Collection
-  { collectionURI :: URI
-  , collectionTitle :: TextContent
-  , collectionAccept :: [Accept]
-  , collectionCats :: [Categories]
-  , collectionOther :: [XML.Element]
-  }
+data Collection =
+  Collection
+    { collectionURI :: URI
+    , collectionTitle :: TextContent
+    , collectionAccept :: [Accept]
+    , collectionCats :: [Categories]
+    , collectionOther :: [XML.Element]
+    }
 
 data Categories
   = CategoriesExternal URI
-  | Categories (Maybe Bool)
-               (Maybe URI)
-               [Category]
+  | Categories (Maybe Bool) (Maybe URI) [Category]
   deriving (Show)
 
-newtype Accept = Accept
-  { acceptType :: Text
-  }
+newtype Accept =
+  Accept
+    { acceptType :: Text
+    }

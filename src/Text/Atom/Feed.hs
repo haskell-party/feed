@@ -54,77 +54,85 @@ type Date = Text
 
 type MediaType = Text
 
-data Feed = Feed
-  { feedId :: URI
-  , feedTitle :: TextContent
-  , feedUpdated :: Date
-  , feedAuthors :: [Person]
-  , feedCategories :: [Category]
-  , feedContributors :: [Person]
-  , feedGenerator :: Maybe Generator
-  , feedIcon :: Maybe URI
-  , feedLinks :: [Link]
-  , feedLogo :: Maybe URI
-  , feedRights :: Maybe TextContent
-  , feedSubtitle :: Maybe TextContent
-  , feedEntries :: [Entry]
-  , feedAttrs :: [Attr]
-  , feedOther :: [XML.Element]
-  } deriving (Show)
+data Feed =
+  Feed
+    { feedId :: URI
+    , feedTitle :: TextContent
+    , feedUpdated :: Date
+    , feedAuthors :: [Person]
+    , feedCategories :: [Category]
+    , feedContributors :: [Person]
+    , feedGenerator :: Maybe Generator
+    , feedIcon :: Maybe URI
+    , feedLinks :: [Link]
+    , feedLogo :: Maybe URI
+    , feedRights :: Maybe TextContent
+    , feedSubtitle :: Maybe TextContent
+    , feedEntries :: [Entry]
+    , feedAttrs :: [Attr]
+    , feedOther :: [XML.Element]
+    }
+  deriving (Show)
 
-data Entry = Entry
-  { entryId :: URI
-  , entryTitle :: TextContent
-  , entryUpdated :: Date
-  , entryAuthors :: [Person]
-  , entryCategories :: [Category]
-  , entryContent :: Maybe EntryContent
-  , entryContributor :: [Person]
-  , entryLinks :: [Link]
-  , entryPublished :: Maybe Date
-  , entryRights :: Maybe TextContent
-  , entrySource :: Maybe Source
-  , entrySummary :: Maybe TextContent
-  , entryInReplyTo :: Maybe InReplyTo
-  , entryInReplyTotal :: Maybe InReplyTotal
-  , entryAttrs :: [Attr]
-  , entryOther :: [XML.Element]
-  } deriving (Show)
+data Entry =
+  Entry
+    { entryId :: URI
+    , entryTitle :: TextContent
+    , entryUpdated :: Date
+    , entryAuthors :: [Person]
+    , entryCategories :: [Category]
+    , entryContent :: Maybe EntryContent
+    , entryContributor :: [Person]
+    , entryLinks :: [Link]
+    , entryPublished :: Maybe Date
+    , entryRights :: Maybe TextContent
+    , entrySource :: Maybe Source
+    , entrySummary :: Maybe TextContent
+    , entryInReplyTo :: Maybe InReplyTo
+    , entryInReplyTotal :: Maybe InReplyTotal
+    , entryAttrs :: [Attr]
+    , entryOther :: [XML.Element]
+    }
+  deriving (Show)
 
 data EntryContent
   = TextContent Text
   | HTMLContent Text
   | XHTMLContent XML.Element
-  | MixedContent (Maybe Text)
-                 [XML.Node]
-  | ExternalContent (Maybe MediaType)
-                    URI
+  | MixedContent (Maybe Text) [XML.Node]
+  | ExternalContent (Maybe MediaType) URI
   deriving (Show)
 
-data Category = Category
-  { catTerm :: Text -- ^ the tag\/term of the category.
-  , catScheme :: Maybe URI -- ^ optional URL for identifying the categorization scheme.
-  , catLabel :: Maybe Text -- ^ human-readable label of the category
-  , catOther :: [XML.Element] -- ^ unknown elements, for extensibility.
-  } deriving (Show)
+data Category =
+  Category
+    { catTerm :: Text -- ^ the tag\/term of the category.
+    , catScheme :: Maybe URI -- ^ optional URL for identifying the categorization scheme.
+    , catLabel :: Maybe Text -- ^ human-readable label of the category
+    , catOther :: [XML.Element] -- ^ unknown elements, for extensibility.
+    }
+  deriving (Show)
 
-data Generator = Generator
-  { genURI :: Maybe URI
-  , genVersion :: Maybe Text
-  , genText :: Text
-  } deriving (Eq, Show)
+data Generator =
+  Generator
+    { genURI :: Maybe URI
+    , genVersion :: Maybe Text
+    , genText :: Text
+    }
+  deriving (Eq, Show)
 
-data Link = Link
-  { linkHref :: URI
+data Link =
+  Link
+    { linkHref :: URI
          -- ToDo: make the switch over to using the Atom.Feed.Link relation type.
-  , linkRel :: Maybe (Either NCName URI)
-  , linkType :: Maybe MediaType
-  , linkHrefLang :: Maybe Text
-  , linkTitle :: Maybe Text
-  , linkLength :: Maybe Text
-  , linkAttrs :: [Attr]
-  , linkOther :: [XML.Element]
-  } deriving (Show)
+    , linkRel :: Maybe (Either NCName URI)
+    , linkType :: Maybe MediaType
+    , linkHrefLang :: Maybe Text
+    , linkTitle :: Maybe Text
+    , linkLength :: Maybe Text
+    , linkAttrs :: [Attr]
+    , linkOther :: [XML.Element]
+    }
+  deriving (Show)
 
 data TextContent
   = TextString Text
@@ -137,41 +145,49 @@ txtToString (TextString s) = unpack s
 txtToString (HTMLString s) = unpack s
 txtToString (XHTMLString x) = show x
 
-data Source = Source
-  { sourceAuthors :: [Person]
-  , sourceCategories :: [Category]
-  , sourceGenerator :: Maybe Generator
-  , sourceIcon :: Maybe URI
-  , sourceId :: Maybe URI
-  , sourceLinks :: [Link]
-  , sourceLogo :: Maybe URI
-  , sourceRights :: Maybe TextContent
-  , sourceSubtitle :: Maybe TextContent
-  , sourceTitle :: Maybe TextContent
-  , sourceUpdated :: Maybe Date
-  , sourceOther :: [XML.Element]
-  } deriving (Show)
+data Source =
+  Source
+    { sourceAuthors :: [Person]
+    , sourceCategories :: [Category]
+    , sourceGenerator :: Maybe Generator
+    , sourceIcon :: Maybe URI
+    , sourceId :: Maybe URI
+    , sourceLinks :: [Link]
+    , sourceLogo :: Maybe URI
+    , sourceRights :: Maybe TextContent
+    , sourceSubtitle :: Maybe TextContent
+    , sourceTitle :: Maybe TextContent
+    , sourceUpdated :: Maybe Date
+    , sourceOther :: [XML.Element]
+    }
+  deriving (Show)
 
-data Person = Person
-  { personName :: Text
-  , personURI :: Maybe URI
-  , personEmail :: Maybe Text
-  , personOther :: [XML.Element]
-  } deriving (Show)
+data Person =
+  Person
+    { personName :: Text
+    , personURI :: Maybe URI
+    , personEmail :: Maybe Text
+    , personOther :: [XML.Element]
+    }
+  deriving (Show)
 
-data InReplyTo = InReplyTo
-  { replyToRef :: URI
-  , replyToHRef :: Maybe URI
-  , replyToType :: Maybe MediaType
-  , replyToSource :: Maybe URI
-  , replyToOther :: [Attr]
-  , replyToContent :: [Node]
-  } deriving (Show)
+data InReplyTo =
+  InReplyTo
+    { replyToRef :: URI
+    , replyToHRef :: Maybe URI
+    , replyToType :: Maybe MediaType
+    , replyToSource :: Maybe URI
+    , replyToOther :: [Attr]
+    , replyToContent :: [Node]
+    }
+  deriving (Show)
 
-data InReplyTotal = InReplyTotal
-  { replyToTotal :: Integer -- non-negative :)
-  , replyToTotalOther :: [Attr]
-  } deriving (Show)
+data InReplyTotal =
+  InReplyTotal
+    { replyToTotal :: Integer -- non-negative :)
+    , replyToTotalOther :: [Attr]
+    }
+  deriving (Show)
 
 -- *Smart Constructors
 newCategory ::

@@ -21,14 +21,14 @@ import Prelude.Compat
 
 import Text.Feed.Types
 
+import qualified Data.Text.Util as U
 import Text.Atom.Feed.Export as Atom
 import Text.RSS.Export as RSS
 import Text.RSS1.Export as RSS1
-import qualified Data.Text.Util as U
 
+import qualified Data.Text.Lazy as TL
 import Data.XML.Types as XML
 import Text.XML (RenderSettings)
-import qualified Data.Text.Lazy as TL
 
 -- | 'xmlFeed f' serializes a @Feed@ document into a conforming
 -- XML toplevel element.

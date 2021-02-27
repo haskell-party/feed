@@ -57,10 +57,10 @@ module Text.Atom.Feed.Export
 import Prelude.Compat
 
 import Data.Text (Text, pack)
-import Data.XML.Types as XML
-import Text.Atom.Feed
 import qualified Data.Text.Lazy as TL
 import qualified Data.Text.Util as U
+import Data.XML.Types as XML
+import Text.Atom.Feed
 
 atom_prefix :: Maybe Text
 atom_prefix = Nothing -- Just "atom"
@@ -107,7 +107,8 @@ atomName :: Text -> Name
 atomName nc = Name {nameLocalName = nc, nameNamespace = Just atomNS, namePrefix = atom_prefix}
 
 atomAttr :: Text -> Text -> Attr
-atomAttr x y = (Name {nameLocalName = x, nameNamespace = Nothing, namePrefix = atom_prefix}, [ContentText y])
+atomAttr x y =
+  (Name {nameLocalName = x, nameNamespace = Nothing, namePrefix = atom_prefix}, [ContentText y])
 
 atomNode :: Text -> [Node] -> XML.Element
 atomNode x = blank_element (atomName x)

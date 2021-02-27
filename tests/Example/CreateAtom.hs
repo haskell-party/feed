@@ -15,11 +15,12 @@ import Text.XML
 atomFeed :: Maybe Text
 atomFeed = renderFeed examplePosts
 
-data Post = Post
-  { _postedOn :: Text
-  , _url :: Text
-  , _content :: Text
-  }
+data Post =
+  Post
+    { _postedOn :: Text
+    , _url :: Text
+    , _content :: Text
+    }
 
 examplePosts :: [Post]
 examplePosts =

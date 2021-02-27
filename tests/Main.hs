@@ -13,4 +13,6 @@ import Text.Feed.Util.Tests (feedUtilTests)
 import Text.RSS.Tests (rssTests)
 
 main :: IO ()
-main = defaultMain [rssTests, atomTests, atomValidateTests, feedUtilTests, exampleTests, importExportTests]
+main =
+  defaultMain
+    [rssTests, atomTests, atomValidateTests, feedUtilTests, exampleTests, importExportTests]

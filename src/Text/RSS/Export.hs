@@ -33,10 +33,10 @@ module Text.RSS.Export
 
 import Prelude.Compat
 
+import qualified Data.Text.Util as U
 import Data.XML.Compat
 import Data.XML.Types as XML
 import Text.RSS.Syntax
-import qualified Data.Text.Util as U
 
 import Data.Text (Text, pack)
 import qualified Data.Text.Lazy as TL
