@@ -135,9 +135,21 @@ test-suite readme
       base >= 4.6 && < 4.15
     , base-compat >= 0.9 && < 0.12
     , text
-    , xml-types
     , feed
     , xml-conduit
     , xml-types
   build-tool-depends:
     markdown-unlit:markdown-unlit >= 0.4 && < 0.6
+
+test-suite readme-doctests
+  hs-source-dirs: tests
+  main-is: doctest-driver.hs
+  type: exitcode-stdio-1.0
+  build-depends:
+      base >= 4 && < 4.15
+    , doctest
+    , doctest-driver-gen
+    , feed
+  build-tool-depends:
+      markdown-unlit:markdown-unlit >= 0.4 && < 0.6
+    , doctest-driver-gen:doctest-driver-gen

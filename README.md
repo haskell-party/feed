@@ -38,35 +38,50 @@ minimum viable 'X', use the 'nullX' constructor.*
 module Main where
 
 import Prelude.Compat hiding (take)
-
+import Data.Maybe
 import Data.Text
 import Data.XML.Types as XML
 import qualified Data.Text.Lazy as Lazy
+import Text.Feed.Types
+
+import Text.XML (def, rsPretty)
 import qualified Text.Atom.Feed as Atom
-import qualified Text.Atom.Feed.Export as Export (textFeed)
+import qualified Text.Feed.Export as Export (textFeedWith)
 
 myFeed :: Atom.Feed
 myFeed = Atom.nullFeed
-    "http://example.com/atom.xml"       -- ^ id
-    (Atom.TextString "Example Website") -- ^ title
-    "2017-08-01"                        -- ^ last updated
+    "http://example.com/atom.xml"
+    (Atom.TextString "Example Website")
+    "2017-08-01"
 ```
 
 Now we can export the feed to `Text`.
 
 ```haskell
-renderFeed :: Atom.Feed -> Maybe Lazy.Text
-renderFeed = Export.textFeed
+renderFeed :: Atom.Feed -> Lazy.Text
+renderFeed = fromJust . Export.textFeedWith def{rsPretty = True} . AtomFeed
 ```
 
-```
-> renderFeed myFeed
-<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title type="text">Example Website</title>
-  <id>http://example.com/atom.xml</id>
-  <updated>2017-08-01</updated>
-</feed>
+We can now render our feed:
+
+```haskell
+-- |
+-- $setup
+-- >>> import qualified Data.Text.Lazy.IO as Lazy
+--
+-- >>> Lazy.putStr $ renderFeed myFeed
+-- <?xml version="1.0" encoding="UTF-8"?>
+-- <feed xmlns="http://www.w3.org/2005/Atom">
+--     <title type="text">
+--         Example Website
+--     </title>
+--     <id>
+--         http://example.com/atom.xml
+--     </id>
+--     <updated>
+--         2017-08-01
+--     </updated>
+-- </feed>
 ```
 
 The `TextContent` sum type allows us to specify which type of text we're providing.
@@ -121,36 +136,64 @@ feed =
          }
 ```
 
+```haskell
+-- |
+-- >>> Lazy.putStr $ renderFeed feed
+-- <?xml version="1.0" encoding="UTF-8"?>
+-- <feed xmlns="http://www.w3.org/2005/Atom">
+--     <title type="text">
+--         Example Website
+--     </title>
+--     <id>
+--         http://example.com/atom.xml
+--     </id>
+--     <updated>
+--         2017-08-01
+--     </updated>
+--     <link href="http://example.com/"/>
+--     <entry>
+--         <id>
+--             http://example.com/2
+--         </id>
+--         <title type="text">
+--             Bar.
+--         </title>
+--         <updated>
+--             2000-02-02T18:30:00Z
+--         </updated>
+--         <author>
+--             <name>
+--                 J. Smith
+--             </name>
+--         </author>
+--         <content type="html">
+--             Bar.
+--         </content>
+--         <link href="http://example.com/2"/>
+--     </entry>
+--     <entry>
+--         <id>
+--             http://example.com/1
+--         </id>
+--         <title type="text">
+--             Foo.
+--         </title>
+--         <updated>
+--             2000-01-01T18:30:00Z
+--         </updated>
+--         <author>
+--             <name>
+--                 J. Smith
+--             </name>
+--         </author>
+--         <content type="html">
+--             Foo.
+--         </content>
+--         <link href="http://example.com/1"/>
+--     </entry>
+-- </feed>
 ```
-> renderFeed feed
-<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title type="text">Example Website</title>
-  <id>http://example.com/atom.xml</id>
-  <updated>2017-08-01</updated>
-  <link href="http://example.com/"/>
-  <entry>
-    <id>http://example.com/2</id>
-    <title type="text">Bar.</title>
-    <updated>2000-02-02T18:30:00Z</updated>
-    <author>
-      <name>J. Smith</name>
-    </author>
-    <content type="text">Bar.</content>
-    <link href="http://example.com/2"/>
-  </entry>
-  <entry>
-    <id>http://example.com/1</id>
-    <title type="text">Foo.</title>
-    <updated>2000-01-01T18:30:00Z</updated>
-    <author>
-      <name>J. Smith</name>
-    </author>
-    <content type="text">Foo.</content>
-    <link href="http://example.com/1"/>
-  </entry>
-</feed>
-```
+
 See [here](https://github.com/bergmark/feed/blob/master/tests/Example/CreateAtom.hs) for this content as an uninterrupted running example.
 
 ```haskell
