@@ -21,7 +21,7 @@ author:              Sigbjorn Finne <sof@forkIO.com>
 maintainer:          Adam Bergmark <adam@bergmark.nl>
 homepage:            https://github.com/bergmark/feed
 bug-reports:         https://github.com/bergmark/feed/issues
-cabal-version:       1.8
+cabal-version:       2.0
 build-type:          Simple
 tested-with:
     GHC == 7.6.3
@@ -46,7 +46,8 @@ source-repository head
 library
   ghc-options:       -Wall
   hs-source-dirs:    src
-  extensions:
+  default-language:  Haskell2010
+  default-extensions:
     NoImplicitPrelude
     OverloadedStrings
   exposed-modules:
@@ -94,9 +95,12 @@ test-suite tests
   hs-source-dirs:    tests
   main-is:           Main.hs
   type:              exitcode-stdio-1.0
-  extensions:
+  default-language:  Haskell2010
+  default-extensions:
     NoImplicitPrelude
     OverloadedStrings
+  autogen-modules:
+    Paths_feed
   other-modules:
     Paths_feed
     Example
@@ -127,7 +131,8 @@ test-suite tests
 test-suite readme
   ghc-options:       -Wall -pgmL markdown-unlit
   main-is:           README.lhs
-  extensions:
+  default-language:  Haskell2010
+  default-extensions:
     NoImplicitPrelude
     OverloadedStrings
   type:              exitcode-stdio-1.0
@@ -145,6 +150,7 @@ test-suite readme-doctests
   hs-source-dirs: tests
   main-is: doctest-driver.hs
   type: exitcode-stdio-1.0
+  default-language: Haskell2010
   build-depends:
       base >= 4 && < 4.15
     , doctest
