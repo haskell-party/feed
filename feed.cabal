@@ -21,7 +21,7 @@ author:              Sigbjorn Finne <sof@forkIO.com>
 maintainer:          Adam Bergmark <adam@bergmark.nl>
 homepage:            https://github.com/bergmark/feed
 bug-reports:         https://github.com/bergmark/feed/issues
-cabal-version:       >= 1.8
+cabal-version:       1.8
 build-type:          Simple
 tested-with:
     GHC == 7.6.3
