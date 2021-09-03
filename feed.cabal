@@ -31,8 +31,8 @@ tested-with:
   , GHC == 8.2.2
   , GHC == 8.4.4
   , GHC == 8.6.5
-  , GHC == 8.8.1
-  , GHC == 8.10.1
+  , GHC == 8.8.4
+  , GHC == 8.10.4
 data-files:
   tests/files/*.xml
 extra-source-files:
@@ -151,6 +151,8 @@ test-suite readme-doctests
   main-is: doctest-driver.hs
   type: exitcode-stdio-1.0
   default-language: Haskell2010
+  if impl(ghc < 8)
+     buildable: False
   build-depends:
       base >= 4.6
     , doctest
