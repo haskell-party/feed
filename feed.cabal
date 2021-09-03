@@ -78,7 +78,7 @@ library
     Data.XML.Compat
   build-depends:
       base >= 4 && < 4.16
-    , base-compat >= 0.9 && < 0.12
+    , base-compat >= 0.9 && < 0.13
     , bytestring >= 0.9 && < 0.12
     , old-locale == 1.0.*
     , old-time >= 1 && < 1.2
@@ -116,7 +116,7 @@ test-suite tests
     Text.RSS.Utils
   build-depends:
       base >= 4.6 && < 4.16
-    , base-compat >= 0.9 && < 0.12
+    , base-compat >= 0.9 && < 0.13
     , HUnit >= 1.2 && < 1.7
     , feed
     , old-time >= 1 && < 1.2
@@ -138,7 +138,7 @@ test-suite readme
   type:              exitcode-stdio-1.0
   build-depends:
       base >= 4.6
-    , base-compat >= 0.9 && < 0.12
+    , base-compat >= 0.9 && < 0.13
     , text
     , feed
     , xml-conduit
