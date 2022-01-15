@@ -1,7 +1,8 @@
 # Feed
 
 [![feed](https://img.shields.io/hackage/v/feed.svg)](http://hackage.haskell.org/package/feed)
-[![Build Status](https://travis-ci.org/bergmark/feed.svg?branch=master)](https://travis-ci.org/bergmark/feed)
+![Build Status](https://github.com/haskell-party/feed/actions/workflows/haskell-ci.yml/badge.svg)
+
 
 ## Goal
 
@@ -194,7 +195,7 @@ feed =
 -- </feed>
 ```
 
-See [here](https://github.com/bergmark/feed/blob/master/tests/Example/CreateAtom.hs) for this content as an uninterrupted running example.
+See [here](https://github.com/haskell-party/feed/blob/master/tests/Example/CreateAtom.hs) for this content as an uninterrupted running example.
 
 ```haskell
 -- Dummy main needed to compile this file with markdown-unlit
