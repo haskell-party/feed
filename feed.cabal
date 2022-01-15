@@ -13,14 +13,14 @@ description:         Interfacing with RSS (v 0.9x, 2.x, 1.0) + Atom feeds.
                      of feeds in Haskell.
                      .
                      See here for an example of how to create an Atom feed:
-                     <https://github.com/bergmark/feed/blob/master/tests/Example/CreateAtom.hs>
+                     <https://github.com/haskell-party/feed/blob/master/tests/Example/CreateAtom.hs>
                      .
                      For basic reading and editing of feeds, consult
                      the documentation of the Text.Feed.* hierarchy.
 author:              Sigbjorn Finne <sof@forkIO.com>
 maintainer:          Adam Bergmark <adam@bergmark.nl>
-homepage:            https://github.com/bergmark/feed
-bug-reports:         https://github.com/bergmark/feed/issues
+homepage:            https://github.com/haskell-party/feed
+bug-reports:         https://github.com/haskell-party/feed/issues
 cabal-version:       2.0
 build-type:          Simple
 tested-with:
@@ -43,7 +43,7 @@ extra-source-files:
 
 source-repository head
   type:              git
-  location:          https://github.com/bergmark/feed.git
+  location:          https://github.com/haskell-party/feed.git
 
 library
   ghc-options:       -Wall
