@@ -1,3 +1,7 @@
+#### 1.3.2.1
+* text 2.0 support, thanks to Alexander Batischev.
+* Moved the repository to https://github.com/haskell-party/
+
 ### 1.3.2.0
 * Expose RSS/Atom item content through queries by using `getItemContent`.
 
