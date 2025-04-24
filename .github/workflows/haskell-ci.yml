@@ -19,11 +19,11 @@ on:
 jobs:
   linux:
     name: Haskell-CI - Linux - ${{ matrix.compiler }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes:
       60
     container:
-      image: buildpack-deps:bionic
+      image: buildpack-deps:25.04
     continue-on-error: ${{ matrix.allow-failure }}
     strategy:
       matrix:
@@ -61,64 +61,78 @@ jobs:
           - compiler: ghc-8.8.4
             compilerKind: ghc
             compilerVersion: 8.8.4
-            setup-method: hvr-ppa
+            setup-method: ghcup
             allow-failure: false
           - compiler: ghc-8.6.5
             compilerKind: ghc
             compilerVersion: 8.6.5
-            setup-method: hvr-ppa
+            setup-method: ghcup
             allow-failure: false
           - compiler: ghc-8.4.4
             compilerKind: ghc
             compilerVersion: 8.4.4
-            setup-method: hvr-ppa
+            setup-method: ghcup
             allow-failure: false
           - compiler: ghc-8.2.2
             compilerKind: ghc
             compilerVersion: 8.2.2
-            setup-method: hvr-ppa
+            setup-method: ghcup-libtinfo5
             allow-failure: false
           - compiler: ghc-8.0.2
             compilerKind: ghc
             compilerVersion: 8.0.2
-            setup-method: hvr-ppa
-            allow-failure: false
-          - compiler: ghc-7.10.3
-            compilerKind: ghc
-            compilerVersion: 7.10.3
-            setup-method: hvr-ppa
-            allow-failure: false
-          - compiler: ghc-7.8.4
-            compilerKind: ghc
-            compilerVersion: 7.8.4
-            setup-method: hvr-ppa
-            allow-failure: false
-          - compiler: ghc-7.6.3
-            compilerKind: ghc
-            compilerVersion: 7.6.3
-            setup-method: hvr-ppa
+            setup-method: ghcup-libtinfo5
             allow-failure: false
       fail-fast: false
     steps:
       - name: apt
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends gnupg ca-certificates dirmngr curl git software-properties-common libtinfo5
+          apt-get install -y --no-install-recommends gnupg ca-certificates dirmngr curl git software-properties-common libtinfo6
+          
+          # Constants
+          GHCUP_VERSION="0.1.50.1"
+          GHCUP_URL="https://downloads.haskell.org/ghcup/${GHCUP_VERSION}/x86_64-linux-ghcup-${GHCUP_VERSION}"
+          GHCUP_BIN_DIR="$HOME/.ghcup/bin"
+          GHCUP_BIN="$GHCUP_BIN_DIR/ghcup"
+          CABAL_VERSION="3.10.2.0"
+          LIBTINFO_DEB_URL="https://archive.ubuntu.com/ubuntu/pool/main/n/ncurses/libtinfo5_6.1-1ubuntu1.18.04.1_amd64.deb"
+
+          # Common setup function
+          setup_ghcup() {
+              mkdir -p "$GHCUP_BIN_DIR"
+              curl -sL "$GHCUP_URL" > "$GHCUP_BIN"
+              chmod +x "$GHCUP_BIN"
+          }
+
+          # Install Haskell tools
+          install_haskell_tools() {
+              "$GHCUP_BIN" install ghc "$HCVER" || { cat "$HOME"/.ghcup/logs/*.* && false; }
+              "$GHCUP_BIN" install cabal "$CABAL_VERSION" || { cat "$HOME"/.ghcup/logs/*.* && false; }
+          }
+
+          # Ubuntu-specific dependencies
+          install_libtinfo5() {
+              wget -q "$LIBTINFO_DEB_URL"
+              dpkg -i libtinfo5_6.1-1ubuntu1.18.04.1_amd64.deb
+              apt --fix-broken install -y
+              rm libtinfo5_6.1-1ubuntu1.18.04.1_amd64.deb
+              
+              mkdir -p "/opt/ghc/$HCVER/bin"
+              ln -sf "$GHCUP_BIN_DIR/ghc-$HCVER" "/opt/ghc/$HCVER/bin/ghc"
+              ln -sf "$GHCUP_BIN_DIR/haddock-$HCVER" "/opt/ghc/$HCVER/bin/haddock"
+          }
+
+          # Main execution
           if [ "${{ matrix.setup-method }}" = ghcup ]; then
-            mkdir -p "$HOME/.ghcup/bin"
-            curl -sL https://downloads.haskell.org/ghcup/0.1.20.0/x86_64-linux-ghcup-0.1.20.0 > "$HOME/.ghcup/bin/ghcup"
-            chmod a+x "$HOME/.ghcup/bin/ghcup"
-            "$HOME/.ghcup/bin/ghcup" install ghc "$HCVER" || (cat "$HOME"/.ghcup/logs/*.* && false)
-            "$HOME/.ghcup/bin/ghcup" install cabal 3.10.2.0 || (cat "$HOME"/.ghcup/logs/*.* && false)
+              setup_ghcup
+              install_haskell_tools
           else
-            apt-add-repository -y 'ppa:hvr/ghc'
-            apt-get update
-            apt-get install -y "$HCNAME"
-            mkdir -p "$HOME/.ghcup/bin"
-            curl -sL https://downloads.haskell.org/ghcup/0.1.20.0/x86_64-linux-ghcup-0.1.20.0 > "$HOME/.ghcup/bin/ghcup"
-            chmod a+x "$HOME/.ghcup/bin/ghcup"
-            "$HOME/.ghcup/bin/ghcup" install cabal 3.10.2.0 || (cat "$HOME"/.ghcup/logs/*.* && false)
+              setup_ghcup
+              install_libtinfo5
+              install_haskell_tools
           fi
+
         env:
           HCKIND: ${{ matrix.compilerKind }}
           HCNAME: ${{ matrix.compiler }}
@@ -202,7 +216,7 @@ jobs:
           chmod a+x $HOME/.cabal/bin/cabal-plan
           cabal-plan --version
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: source
       - name: initial cabal.project for sdist

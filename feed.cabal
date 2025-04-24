@@ -40,7 +40,7 @@ tested-with:
   , GHC == 9.8.1
 data-files:
   tests/files/*.xml
-extra-source-files:
+extra-doc-files:
   README.md
   CHANGELOG.md
 
