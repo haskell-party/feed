@@ -1,1 +1,6 @@
 packages: .
+
+-- The readme-doctests suite invokes doctest with `-package text -package
+-- xml-types`; doctest resolves those from the GHC environment file, so it must
+-- be written.
+write-ghc-environment-files: always
