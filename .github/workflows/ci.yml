@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: GHC ${{ matrix.ghc }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        ghc:
+          - '9.4.8'
+          - '9.6.7'
+          - '9.8.4'
+          - '9.10.3'
+          - '9.12.2'
+          - '9.14.1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: haskell-actions/setup@v2
+        id: setup
+        with:
+          ghc-version: ${{ matrix.ghc }}
+          cabal-version: 'latest'
+
+      - name: Configure
+        run: |
+          cabal configure --enable-tests --enable-benchmarks --test-show-details=direct
+          cabal build all --dry-run
+
+      - name: Restore cached dependencies
+        uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: ${{ steps.setup.outputs.cabal-store }}
+          key: ${{ runner.os }}-ghc-${{ steps.setup.outputs.ghc-version }}-${{ hashFiles('**/plan.json') }}
+          restore-keys: ${{ runner.os }}-ghc-${{ steps.setup.outputs.ghc-version }}-
+
+      - name: Install dependencies
+        run: cabal build all --only-dependencies
+
+      - name: Save cached dependencies
+        uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.setup.outputs.cabal-store }}
+          key: ${{ steps.cache.outputs.cache-primary-key }}
+
+      # `cabal build` must precede `cabal test`: it writes the
+      # .ghc.environment file that the readme-doctests suite relies on.
+      - name: Build
+        run: cabal build all
+
+      - name: Test
+        run: cabal test all
+
+      - name: Haddock
+        run: cabal haddock all
+
+      - name: Check the package for Hackage
+        run: cabal check

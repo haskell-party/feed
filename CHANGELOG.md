@@ -1,3 +1,12 @@
+#### 1.3.2.2
+* GHC 9.10, 9.12 and 9.14 support: relax `base` to `< 4.23` and `time` to `< 1.16`.
+* Allow `base-compat-0.15`.
+* Allow `xml-conduit-1.10` for the library and the `tests` suite. The `readme`
+  suite stays on `xml-conduit < 1.10` because `rsPretty`, which `README.lhs`
+  demonstrates, was removed in 1.10.
+* Replace the stale `haskell-ci`-generated workflow with a `haskell-actions/setup`
+  matrix covering GHC 9.4 through 9.14.
+
 #### 1.3.2.1
 * text 2.0 support, thanks to Alexander Batischev.
 * Moved the repository to https://github.com/haskell-party/
